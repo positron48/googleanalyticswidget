@@ -1,11 +1,9 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\GoogleAnalytics;
 
-
-use AcmeCorp\ReferenceExtension\ReferenceWidget;
-use AcmeCorp\ReferenceExtension\Twig;
 use Bolt\Extension\BaseExtension;
 
 class Extension extends BaseExtension

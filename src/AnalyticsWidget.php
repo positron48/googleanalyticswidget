@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\GoogleAnalytics;
-
 
 use Bolt\Widget\BaseWidget;
 use Bolt\Widget\CacheAware;
@@ -29,9 +29,9 @@ class AnalyticsWidget extends BaseWidget implements TwigAware, CacheAware, Stopw
     protected $cacheDuration = 1800;
 
     protected $google_analytics_dimensions = 'ga:date';
-    protected $google_analytics_metrics 		= 'ga:pageviews,ga:uniquePageviews,ga:avgTimeOnPage';
-    protected $google_analytics_sort_by 		= 'ga:date';
-    protected $google_analytics_max_results 	= '30';
+    protected $google_analytics_metrics = 'ga:pageviews,ga:uniquePageviews,ga:avgTimeOnPage';
+    protected $google_analytics_sort_by = 'ga:date';
+    protected $google_analytics_max_results = '30';
 
     public function run(array $params = []): ?string
     {
@@ -43,10 +43,9 @@ class AnalyticsWidget extends BaseWidget implements TwigAware, CacheAware, Stopw
 
         return parent::run([
             'name' => $this->getName(),
-            'data' => $data
+            'data' => $data,
         ]);
     }
-
 
     private function gatherData()
     {
@@ -54,18 +53,17 @@ class AnalyticsWidget extends BaseWidget implements TwigAware, CacheAware, Stopw
         $profile = $this->getFirstProfileId($analytics);
         $results = $this->getResults($analytics, $profile);
 
-        foreach($results->getRows() as $row) {
+        foreach ($results->getRows() as $row) {
             $rows[] = [
                 'date' => date('Y-m-d H:i:s', strtotime($row[0])),
                 'pageviews' => (int) $row[1],
                 'uniques' => (int) $row[2],
-                'time' => (int) $row[3]
+                'time' => (int) $row[3],
             ];
         }
 
         return $rows;
     }
-
 
     private function initializeAnalytics(): Google_Service_Analytics
     {
@@ -78,12 +76,10 @@ class AnalyticsWidget extends BaseWidget implements TwigAware, CacheAware, Stopw
 
         // Create and configure a new client object.
         $client = new Google_Client();
-        $client->setApplicationName("Hello Analytics Reporting");
+        $client->setApplicationName('Hello Analytics Reporting');
         $client->setAuthConfig($KEY_FILE_LOCATION);
         $client->setScopes(['https://www.googleapis.com/auth/analytics.readonly']);
-        $analytics = new Google_Service_Analytics($client);
-
-        return $analytics;
+        return new Google_Service_Analytics($client);
     }
 
     private function getFirstProfileId($analytics): string
@@ -114,28 +110,23 @@ class AnalyticsWidget extends BaseWidget implements TwigAware, CacheAware, Stopw
 
                     // Return the first view (profile) ID.
                     return $items[0]->getId();
-
-                } else {
-                    throw new Exception('No views (profiles) found for this user.');
                 }
-            } else {
-                throw new Exception('No properties found for this user.');
+                throw new Exception('No views (profiles) found for this user.');
             }
-        } else {
-            throw new Exception('No accounts found for this user.');
+            throw new Exception('No properties found for this user.');
         }
+        throw new Exception('No accounts found for this user.');
     }
 
-    function getResults($analytics, $profileId): Google_Service_Analytics_GaData
+    public function getResults($analytics, $profileId): Google_Service_Analytics_GaData
     {
         $params = [
             'dimensions' => $this->google_analytics_dimensions,
             'sort' => $this->google_analytics_sort_by,
             'filters' => 'ga:medium==organic',
-            'max-results' => $this->google_analytics_max_results
+            'max-results' => $this->google_analytics_max_results,
         ];
 
         return $analytics->data_ga->get('ga:' . $profileId, '30daysAgo', 'today', $this->google_analytics_metrics, $params);
     }
-
 }

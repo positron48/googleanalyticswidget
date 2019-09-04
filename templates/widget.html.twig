@@ -1,18 +1,64 @@
 <div class="card mb-4">
     <div class="card-header">
-        <i class="fas fa-plug"></i> {{ extension.name }}
+        <i class="fas fa-chart-bar"></i> {{ name }}
     </div>
+    <canvas id="myChart" style="width: 100%; height: 200px; padding: 0 10px;"></canvas>
+    <script>
+        window.onload = function() {
+
+            var chartData = {
+                labels: [ {%- for row in data -%}'{{ row.date|date('l M d') }}'{{ not loop.last ? ', ' }}{%- endfor -%} ],
+                datasets: [{
+                    type: 'line',
+                    label: 'Pageviews',
+                    borderColor: '#5da1ac',
+                    borderWidth: 2,
+                    fill: false,
+                    data: [ {%- for row in data -%}{{ row.pageviews }}{{ not loop.last ? ', ' }}{%- endfor -%} ],
+                }, {
+                    type: 'line',
+                    label: 'Uniques',
+                    borderColor: '#4c6e91',
+                    fill: false,
+                    borderWidth: 2,
+                    data: [ {%- for row in data -%}{{ row.uniques }}{{ not loop.last ? ', ' }}{%- endfor -%} ],
+                }, {
+                    type: 'bar',
+                    label: 'Time on page',
+                    backgroundColor: '#AAAAAA',
+                    data: [ {%- for row in data -%}{{ row.time }}{{ not loop.last ? ', ' }}{%- endfor -%} ]
+                }]
+            };
+
+
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    tooltips: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    scales: {
+                        xAxes: [{
+                            display: false,
+                        }]
+                    }
+                }
+            });
+        }
+    </script>
+
     <div class="card-body">
-
-pom pom pom
-
-        <p>
             <a href="#" class="btn btn-secondary" data-confirm="This button doesn't actually do anything">
-                <i class="fas fa-carrot"></i> Button
+                <i class="fas fa-chart-bar"></i> Pageviews
             </a>
-            <a href="#" class="btn btn-hidden-danger" data-confirm="This button doesn't actually do anything">
-                <i class="fas fa-spider"></i> Dangerous button
+            <a href="#" class="btn btn-tertiary" data-confirm="This button doesn't actually do anything">
+                <i class="fas fa-list"></i> Popular pages
             </a>
-        </p>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>

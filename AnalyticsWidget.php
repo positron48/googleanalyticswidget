@@ -21,12 +21,12 @@ class AnalyticsWidget extends BaseWidget implements TwigAware, CacheAware, Stopw
     use CacheTrait;
     use StopwatchTrait;
 
-    protected $name = 'Google Analytics';
+    protected $name = 'Site visitor statistics';
     protected $target = AdditionalTarget::WIDGET_BACK_DASHBOARD_ASIDE_TOP;
     protected $priority = 50;
-    protected $template = '@google-analytics/widget.html.twig';
+    protected $template = '@site-visitor-statistics/widget.html.twig';
     protected $zone = RequestZone::BACKEND;
-    protected $cacheDuration = -1800;
+    protected $cacheDuration = 1800;
 
     protected $google_analytics_dimensions = 'ga:date';
     protected $google_analytics_metrics 		= 'ga:pageviews,ga:uniquePageviews,ga:avgTimeOnPage';
@@ -41,7 +41,10 @@ class AnalyticsWidget extends BaseWidget implements TwigAware, CacheAware, Stopw
             return null;
         }
 
-        return parent::run(['data' => $data]);
+        return parent::run([
+            'name' => $this->getName(),
+            'data' => $data
+        ]);
     }
 
 
@@ -51,7 +54,16 @@ class AnalyticsWidget extends BaseWidget implements TwigAware, CacheAware, Stopw
         $profile = $this->getFirstProfileId($analytics);
         $results = $this->getResults($analytics, $profile);
 
-        return $results;
+        foreach($results->getRows() as $row) {
+            $rows[] = [
+                'date' => date('Y-m-d H:i:s', strtotime($row[0])),
+                'pageviews' => (int) $row[1],
+                'uniques' => (int) $row[2],
+                'time' => (int) $row[3]
+            ];
+        }
+
+        return $rows;
     }
 
 
@@ -123,7 +135,7 @@ class AnalyticsWidget extends BaseWidget implements TwigAware, CacheAware, Stopw
             'max-results' => $this->google_analytics_max_results
         ];
 
-        return $analytics->data_ga->get('ga:' . $profileId, '28daysAgo', 'today', $this->google_analytics_metrics, $params);
+        return $analytics->data_ga->get('ga:' . $profileId, '30daysAgo', 'today', $this->google_analytics_metrics, $params);
     }
 
 }

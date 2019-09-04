@@ -1,0 +1,30 @@
+{
+    "name": "bobdenotter/google-analytics-widget",
+    "description": "📊 This Bolt extension shows a Google Analytics visitor stats on the Dashboard",
+    "type": "bolt-extension",
+    "keywords": ["bolt", "extension", "Google Analytics", "Statistics"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Bob den Otter",
+            "email": "bobdenotter@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.3"
+    },
+    "require-dev": {
+        "bolt/core": "^4.0.0",
+        "symplify/easy-coding-standard": "^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "BobdenOtter\\GoogleAnalytics\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "extra": {
+        "entrypoint": "BobdenOtter\\GoogleAnalytics\\Extension"
+    }
+}

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\GoogleAnalytics;
+namespace BobdenOtter\GoogleAnalytics;
 
 use Bolt\Widget\BaseWidget;
 use Bolt\Widget\CacheAware;

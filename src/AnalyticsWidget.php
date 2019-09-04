@@ -72,7 +72,8 @@ class AnalyticsWidget extends BaseWidget implements TwigAware, CacheAware, Stopw
         // Use the developers console and download your service account
         // credentials in JSON format. Place them in this directory or
         // change the key file location if necessary.
-        $KEY_FILE_LOCATION = __DIR__ . '/service-account-credentials.json';
+        // $KEY_FILE_LOCATION = __DIR__ . '/service-account-credentials.json';
+        $KEY_FILE_LOCATION = dirname(dirname(dirname(dirname(__DIR__)))) . '/config/extensions/service-account-credentials.json';
 
         // Create and configure a new client object.
         $client = new Google_Client();

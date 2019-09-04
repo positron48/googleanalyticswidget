@@ -1,0 +1,15 @@
+service-account-credentials.json
+
+
+### Platfom-specific files
+.DS_Store
+thumbs.db
+Vagrantfile
+.vagrant*
+.idea
+.vscode/*
+appveyor.yml
+
+vendor/
+composer.lock
+var/

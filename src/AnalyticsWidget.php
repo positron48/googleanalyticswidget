@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace BobdenOtter\GoogleAnalytics;
 
 use Bolt\Widget\BaseWidget;
-use Bolt\Widget\CacheAware;
+use Bolt\Widget\CacheAwareInterface;
 use Bolt\Widget\CacheTrait;
 use Bolt\Widget\Injector\AdditionalTarget;
 use Bolt\Widget\Injector\RequestZone;
-use Bolt\Widget\StopwatchAware;
+use Bolt\Widget\StopwatchAwareInterface;
 use Bolt\Widget\StopwatchTrait;
-use Bolt\Widget\TwigAware;
+use Bolt\Widget\TwigAwareInterface;
 use Google_Client;
 use Google_Service_Analytics;
 use Google_Service_Analytics_GaData;
 
-class AnalyticsWidget extends BaseWidget implements TwigAware, CacheAware, StopwatchAware
+class AnalyticsWidget extends BaseWidget implements TwigAwareInterface, CacheAwareInterface, StopwatchAwareInterface
 {
     use CacheTrait;
     use StopwatchTrait;

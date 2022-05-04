@@ -1,13 +1,13 @@
 {
-    "name": "bobdenotter/google-analytics-widget",
+    "name": "positron48/google-analytics-widget",
     "description": "📊 This Bolt extension shows a Google Analytics visitor stats on the Dashboard",
     "type": "bolt-extension",
     "keywords": ["bolt", "extension", "Google Analytics", "Statistics"],
     "license": "MIT",
     "authors": [
         {
-            "name": "Bob den Otter",
-            "email": "bobdenotter@gmail.com"
+            "name": "Anton Filatov",
+            "email": "positron48@gmail.com"
         }
     ],
     "require": {
@@ -15,17 +15,17 @@
         "google/apiclient": "^2.2"
     },
     "require-dev": {
-        "bolt/core": "^4.0.0",
+        "bolt/core": "^5.0",
         "symplify/easy-coding-standard": "^6.0"
     },
     "autoload": {
         "psr-4": {
-            "BobdenOtter\\GoogleAnalytics\\": "src/"
+            "Positron48\\GoogleAnalytics\\": "src/"
         }
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "extra": {
-        "entrypoint": "BobdenOtter\\GoogleAnalytics\\Extension"
+        "entrypoint": "Positron48\\GoogleAnalytics\\Extension"
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BobdenOtter\GoogleAnalytics;
+namespace Positron48\GoogleAnalytics;
 
 use Bolt\Widget\BaseWidget;
 use Bolt\Widget\CacheAwareInterface;
@@ -12,6 +12,7 @@ use Bolt\Widget\Injector\RequestZone;
 use Bolt\Widget\StopwatchAwareInterface;
 use Bolt\Widget\StopwatchTrait;
 use Bolt\Widget\TwigAwareInterface;
+use Exception;
 use Google_Client;
 use Google_Service_Analytics;
 use Google_Service_Analytics_GaData;
@@ -53,7 +54,11 @@ class AnalyticsWidget extends BaseWidget implements TwigAwareInterface, CacheAwa
         $profile = $this->getFirstProfileId($analytics);
         $results = $this->getResults($analytics, $profile);
 
-        foreach ($results->getRows() as $row) {
+        $gaRows = $results->getRows();
+        if($gaRows === null) {
+            return [];
+        }
+        foreach ($gaRows as $row) {
             $rows[] = [
                 'date' => date('Y-m-d H:i:s', strtotime($row[0])),
                 'pageviews' => (int) $row[1],

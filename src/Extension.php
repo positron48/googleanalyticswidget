@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BobdenOtter\GoogleAnalytics;
+namespace Positron48\GoogleAnalytics;
 
 use Bolt\Extension\BaseExtension;
 
@@ -18,6 +18,7 @@ class Extension extends BaseExtension
 
     public function initialize(): void
     {
-        $this->registerWidget(new AnalyticsWidget());
+        $widgets = $this->getWidgets();
+        $widgets->registerWidget(new AnalyticsWidget());
     }
 }
